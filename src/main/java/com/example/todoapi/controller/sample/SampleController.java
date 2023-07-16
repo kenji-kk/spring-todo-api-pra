@@ -1,5 +1,7 @@
 package com.example.todoapi.controller.sample;
 
+import com.example.todoapi.service.sample.SampleEntity;
+import com.example.todoapi.service.sample.SampleService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -7,11 +9,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 
 @RestController
-@RequestMapping("samples")
+@RequestMapping("/samples")
 public class SampleController {
+
+    private final SampleService service = new SampleService();
 
     @GetMapping
     public SampleDTO index() {
-        return new SampleDTO("OK", LocalDateTime.now());
+        SampleEntity entity = service.find();
+        return new SampleDTO(entity.getContent(), LocalDateTime.now());
     }
 }
